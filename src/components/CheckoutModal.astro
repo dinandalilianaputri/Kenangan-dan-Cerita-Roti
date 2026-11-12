@@ -1,0 +1,389 @@
+---
+// CheckoutModal.astro
+---
+
+<div
+  id="checkout-modal-backdrop"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="checkout-title"
+>
+  <div
+    id="checkout-modal-panel"
+    class="relative w-full max-w-lg max-h-[92vh] flex flex-col bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden transform scale-95 transition-transform duration-300"
+  >
+    <!-- Modal Close Button -->
+    <button
+      id="close-checkout-modal-btn"
+      type="button"
+      aria-label="Tutup form checkout"
+      class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center transition-colors cursor-pointer"
+    >
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- State 1: Checkout Form View -->
+    <div id="checkout-form-view" class="flex-1 overflow-y-auto p-6 space-y-6">
+      
+      <div>
+        <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Konfirmasi Pembayaran</span>
+        <h2 id="checkout-title" class="font-serif-brand text-2xl font-bold text-stone-900 mt-1">
+          Lengkapi Data Pesanan
+        </h2>
+        <p class="text-xs text-stone-500 mt-0.5">
+          Pastikan detail pesanan dan nomor kontak Anda sudah benar.
+        </p>
+      </div>
+
+      <form id="checkout-form" class="space-y-4">
+        
+        <!-- Customer Name -->
+        <div>
+          <label for="cust-name" class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+            Nama Pemesan <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="cust-name"
+            name="customerName"
+            type="text"
+            required
+            placeholder="Contoh: Dimas Prasetyo"
+            class="w-full px-3.5 py-2.5 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-stone-900"
+          />
+        </div>
+
+        <!-- Phone Number -->
+        <div>
+          <label for="cust-phone" class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+            Nomor WhatsApp / HP <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="cust-phone"
+            name="customerPhone"
+            type="tel"
+            required
+            placeholder="Contoh: 08123456789"
+            class="w-full px-3.5 py-2.5 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-stone-900"
+          />
+        </div>
+
+        <!-- Order Dining Type -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+            Tipe Pemesanan <span class="text-red-500">*</span>
+          </label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="order-type-label p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer bg-white hover:border-amber-400 transition-all flex flex-col items-center gap-1">
+              <input type="radio" name="order-type" value="Dine In" checked class="sr-only" />
+              <span class="text-base">🍽️</span>
+              <span class="text-xs font-bold text-stone-800">Dine In</span>
+            </label>
+            <label class="order-type-label p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer bg-white hover:border-amber-400 transition-all flex flex-col items-center gap-1">
+              <input type="radio" name="order-type" value="Take Away" class="sr-only" />
+              <span class="text-base">🛍️</span>
+              <span class="text-xs font-bold text-stone-800">Take Away</span>
+            </label>
+            <label class="order-type-label p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer bg-white hover:border-amber-400 transition-all flex flex-col items-center gap-1">
+              <input type="radio" name="order-type" value="Delivery" class="sr-only" />
+              <span class="text-base">🛵</span>
+              <span class="text-xs font-bold text-stone-800">Delivery</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Dining Specific Field (Table Number or Address) -->
+        <div id="table-number-group">
+          <label for="table-num" class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+            Nomor Meja / Alamat Pengantaran
+          </label>
+          <input
+            id="table-num"
+            name="tableNumber"
+            type="text"
+            placeholder="Contoh: Meja 08 (atau kosongkan bila di kasir)"
+            class="w-full px-3.5 py-2.5 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-stone-900"
+          />
+        </div>
+
+        <!-- Payment Method -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+            Metode Pembayaran <span class="text-red-500">*</span>
+          </label>
+          <div class="space-y-2">
+            <label class="flex items-center justify-between p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 bg-white">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="payment-method" value="QRIS" checked class="text-amber-600 focus:ring-amber-500" />
+                <div>
+                  <div class="text-xs sm:text-sm font-bold text-stone-800">QRIS (Semua E-Wallet & Mobile Banking)</div>
+                  <div class="text-[11px] text-stone-500">BCA, Mandiri, GoPay, OVO, ShopeePay, Dana</div>
+                </div>
+              </div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Instan</span>
+            </label>
+            <label class="flex items-center justify-between p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 bg-white">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="payment-method" value="Kasir / Tunai" class="text-amber-600 focus:ring-amber-500" />
+                <div>
+                  <div class="text-xs sm:text-sm font-bold text-stone-800">Bayar di Kasir (Tunai / EDC)</div>
+                  <div class="text-[11px] text-stone-500">Tunjukkan nomor pesanan Anda ke kasir</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Summary in Checkout -->
+        <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 text-xs space-y-1.5">
+          <div class="flex justify-between text-stone-600">
+            <span>Total Menu:</span>
+            <span id="co-items-count" class="font-semibold text-stone-900">0 Menu</span>
+          </div>
+          <div class="flex justify-between text-stone-600">
+            <span>Total Tagihan:</span>
+            <span id="co-final-total" class="font-bold text-amber-900 font-serif-brand text-sm sm:text-base">Rp 0</span>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-amber-900/30 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>Konfirmasi & Buat Pesanan</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- State 2: Order Success Receipt View -->
+    <div id="checkout-success-view" class="p-6 sm:p-8 space-y-5 text-center hidden">
+      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl shadow-md">
+        ✓
+      </div>
+
+      <div>
+        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Pesanan Diterima!</span>
+        <h3 class="font-serif-brand text-2xl font-bold text-stone-900 mt-1">Terima Kasih, <span id="receipt-customer-name">Sobat</span>!</h3>
+        <p class="text-xs text-stone-500 mt-1">
+          Barista kami sedang meracik kopi dan menyiapkan kelembutan roti pesananmu.
+        </p>
+      </div>
+
+      <!-- Receipt Box -->
+      <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 text-left text-xs space-y-3 font-mono">
+        <div class="border-b border-dashed border-stone-300 pb-2 flex justify-between">
+          <span class="text-stone-500">No. Pesanan:</span>
+          <span id="receipt-order-id" class="font-bold text-amber-900">#KN-000000</span>
+        </div>
+        <div class="border-b border-dashed border-stone-300 pb-2 flex justify-between">
+          <span class="text-stone-500">Estimasi Selesai:</span>
+          <span class="font-bold text-stone-800">10 - 15 Menit</span>
+        </div>
+        <div class="border-b border-dashed border-stone-300 pb-2 flex justify-between">
+          <span class="text-stone-500">Tipe / Meja:</span>
+          <span id="receipt-dining-type" class="font-bold text-stone-800">Dine In</span>
+        </div>
+        <div class="border-b border-dashed border-stone-300 pb-2 flex justify-between">
+          <span class="text-stone-500">Metode Bayar:</span>
+          <span id="receipt-payment-method" class="font-bold text-stone-800">QRIS</span>
+        </div>
+        <div class="flex justify-between font-sans text-sm font-extrabold text-stone-900 pt-1">
+          <span>Total Bayar:</span>
+          <span id="receipt-total-amount" class="text-amber-900 font-serif-brand">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- Success Action Buttons -->
+      <div class="flex flex-col gap-2.5 pt-2">
+        <!-- Direct WhatsApp Share Button -->
+        <a
+          id="send-wa-order-btn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.06-2.029-.496-1.554-.649-2.581-2.22-2.659-2.325-.077-.105-.631-.84-.631-1.603 0-.764.398-1.141.542-1.297.144-.156.312-.195.416-.195.105 0 .208.001.299.006.096.005.226-.037.352.269.13.316.442 1.077.481 1.156.039.078.065.17.013.273-.052.104-.078.169-.156.26-.078.091-.164.204-.234.273-.078.078-.16.163-.069.319.091.156.404.667.868 1.08 1.019.907 1.25.992 1.428 1.07.178.078.283.065.387-.052.104-.117.442-.519.56-.699.117-.182.234-.152.39-.091.156.061.988.466 1.157.551.17.085.283.127.325.198.042.071.042.416-.102.821z" />
+          </svg>
+          <span>Kirim Rincian ke WhatsApp Barista</span>
+        </a>
+
+        <button
+          id="finish-order-btn"
+          type="button"
+          class="w-full py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-xs sm:text-sm transition-all cursor-pointer"
+        >
+          Selesai & Belanja Lagi
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import type { CartItem } from '../types/menu';
+
+  const backdrop = document.getElementById('checkout-modal-backdrop');
+  const panel = document.getElementById('checkout-modal-panel');
+  const closeBtn = document.getElementById('close-checkout-modal-btn');
+  const formView = document.getElementById('checkout-form-view');
+  const successView = document.getElementById('checkout-success-view');
+
+  const checkoutForm = document.getElementById('checkout-form') as HTMLFormElement | null;
+  const itemsCountEl = document.getElementById('co-items-count');
+  const totalAmountEl = document.getElementById('co-final-total');
+
+  const receiptCustName = document.getElementById('receipt-customer-name');
+  const receiptOrderId = document.getElementById('receipt-order-id');
+  const receiptDiningType = document.getElementById('receipt-dining-type');
+  const receiptPayment = document.getElementById('receipt-payment-method');
+  const receiptTotal = document.getElementById('receipt-total-amount');
+  const sendWaBtn = document.getElementById('send-wa-order-btn') as HTMLAnchorElement | null;
+  const finishOrderBtn = document.getElementById('finish-order-btn');
+
+  let currentItems: CartItem[] = [];
+  let currentDiscount = 0;
+  let finalCalculatedTotal = 0;
+
+  function formatRp(n: number) {
+    return `Rp ${n.toLocaleString('id-ID')}`;
+  }
+
+  function openCheckout(items: CartItem[], discount: number) {
+    currentItems = items;
+    currentDiscount = discount;
+
+    const count = items.reduce((sum, it) => sum + it.quantity, 0);
+    const subtotal = items.reduce((sum, it) => sum + it.unitPrice * it.quantity, 0);
+    const tax = Math.round(subtotal * 0.1);
+    finalCalculatedTotal = Math.max(0, subtotal + tax - discount);
+
+    if (itemsCountEl) itemsCountEl.textContent = `${count} Menu`;
+    if (totalAmountEl) totalAmountEl.textContent = formatRp(finalCalculatedTotal);
+
+    // Show form view, hide success view
+    formView?.classList.remove('hidden');
+    successView?.classList.add('hidden');
+
+    if (backdrop && panel) {
+      backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      panel.classList.remove('scale-95');
+      panel.classList.add('scale-100');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeCheckout() {
+    if (backdrop && panel) {
+      backdrop.classList.add('opacity-0', 'pointer-events-none');
+      panel.classList.remove('scale-100');
+      panel.classList.add('scale-95');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Listen to open-checkout-modal
+  window.addEventListener('open-checkout-modal', ((e: CustomEvent) => {
+    const { items, discount } = e.detail || { items: [], discount: 0 };
+    openCheckout(items, discount);
+  }) as EventListener);
+
+  if (closeBtn) closeBtn.addEventListener('click', closeCheckout);
+  backdrop?.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeCheckout();
+  });
+
+  // Radio button styling for dining options
+  document.querySelectorAll('.order-type-label').forEach((label) => {
+    label.addEventListener('click', () => {
+      document.querySelectorAll('.order-type-label').forEach((l) => {
+        l.className =
+          'order-type-label p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer bg-white hover:border-amber-400 transition-all flex flex-col items-center gap-1';
+      });
+      label.className =
+        'order-type-label p-2.5 text-center rounded-xl border-2 border-amber-600 cursor-pointer bg-amber-50/70 transition-all flex flex-col items-center gap-1';
+    });
+  });
+
+  // Handle Form Submission
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById('cust-name') as HTMLInputElement;
+      const orderTypeInput = document.querySelector('input[name="order-type"]:checked') as HTMLInputElement;
+      const tableInput = document.getElementById('table-num') as HTMLInputElement;
+      const paymentInput = document.querySelector('input[name="payment-method"]:checked') as HTMLInputElement;
+
+      const customerName = nameInput?.value.trim() || 'Pelanggan';
+      const orderType = orderTypeInput?.value || 'Dine In';
+      const tableNumber = tableInput?.value.trim();
+      const paymentMethod = paymentInput?.value || 'QRIS';
+
+      // Generate random order ID
+      const randomId = `#KN-${Math.floor(100000 + Math.random() * 900000)}`;
+
+      if (receiptCustName) receiptCustName.textContent = customerName;
+      if (receiptOrderId) receiptOrderId.textContent = randomId;
+      if (receiptDiningType) receiptDiningType.textContent = tableNumber ? `${orderType} (${tableNumber})` : orderType;
+      if (receiptPayment) receiptPayment.textContent = paymentMethod;
+      if (receiptTotal) receiptTotal.textContent = formatRp(finalCalculatedTotal);
+
+      // Construct WhatsApp Order Message
+      const waNumber = '6281234567890';
+      let waMessage = `*PESANAN BARU - ${randomId}*\n`;
+      waMessage += `Nama: ${customerName}\n`;
+      waMessage += `Tipe: ${orderType}${tableNumber ? ` (${tableNumber})` : ''}\n`;
+      waMessage += `Metode Bayar: ${paymentMethod}\n\n`;
+      waMessage += `*Rincian Menu:*\n`;
+
+      currentItems.forEach((ci, idx) => {
+        waMessage += `${idx + 1}. ${ci.quantity}x ${ci.item.name} (${formatRp(ci.unitPrice * ci.quantity)})\n`;
+        if (ci.selectedOptions?.temperature) waMessage += `   - Suhu: ${ci.selectedOptions.temperature}\n`;
+        if (ci.selectedOptions?.size) waMessage += `   - Ukuran: ${ci.selectedOptions.size}\n`;
+        if (ci.selectedOptions?.sugarLevel) waMessage += `   - Gula: ${ci.selectedOptions.sugarLevel}\n`;
+        if (ci.selectedOptions?.iceLevel && ci.selectedOptions.temperature === 'Ice') waMessage += `   - Es: ${ci.selectedOptions.iceLevel}\n`;
+        if (ci.selectedOptions?.notes) waMessage += `   - Catatan: ${ci.selectedOptions.notes}\n`;
+      });
+
+      waMessage += `\n*Total Bayar: ${formatRp(finalCalculatedTotal)}*\nMohon segera diproses, terima kasih!`;
+
+      if (sendWaBtn) {
+        sendWaBtn.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+      }
+
+      // Switch views
+      formView?.classList.add('hidden');
+      successView?.classList.remove('hidden');
+
+      // Clear Cart
+      window.dispatchEvent(new CustomEvent('clear-cart'));
+
+      // Trigger Celebration Toast
+      window.dispatchEvent(
+        new CustomEvent('show-toast', {
+          detail: {
+            title: 'Pesanan Berhasil!',
+            message: `Pesanan ${randomId} atas nama ${customerName} sedang disiapkan.`,
+            type: 'success',
+          },
+        })
+      );
+    });
+  }
+
+  if (finishOrderBtn) {
+    finishOrderBtn.addEventListener('click', () => {
+      closeCheckout();
+      checkoutForm?.reset();
+    });
+  }
+</script>

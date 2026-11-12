@@ -1,0 +1,136 @@
+---
+// MenuGrid.astro
+import type { MenuItem } from '../types/menu';
+import MenuCard from './MenuCard.astro';
+
+interface Props {
+  items: MenuItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="relative">
+  <!-- Grid of Menu Cards -->
+  <div id="menu-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    {items.map((item) => (
+      <MenuCard item={item} />
+    ))}
+  </div>
+
+  <!-- Empty State when no results match search/filter -->
+  <div
+    id="menu-empty-state"
+    class="hidden py-16 px-4 text-center rounded-3xl bg-white border border-stone-200/80 shadow-sm max-w-md mx-auto my-8"
+  >
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center text-3xl">
+      🔍
+    </div>
+    <h3 class="text-lg font-bold text-stone-900">Menu Tidak Ditemukan</h3>
+    <p class="text-sm text-stone-600 mt-1.5 leading-relaxed">
+      Tidak ada menu yang cocok dengan kata kunci atau filter yang Anda pilih. Coba kata kunci lain.
+    </p>
+    <button
+      id="reset-filter-btn"
+      type="button"
+      class="mt-5 px-5 py-2.5 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+    >
+      Reset Semua Filter
+    </button>
+  </div>
+</div>
+
+<script>
+  import type { MenuItem } from '../types/menu';
+
+  const cardsContainer = document.getElementById('menu-cards-container');
+  const emptyState = document.getElementById('menu-empty-state');
+  const counterBadge = document.getElementById('menu-counter-badge');
+  const resetBtn = document.getElementById('reset-filter-btn');
+
+  // Listen to filter changes
+  window.addEventListener('menu-filter-change', ((e: CustomEvent) => {
+    const { category, onlyBestSeller, searchQuery } = e.detail || {};
+    const cards = document.querySelectorAll('.menu-card');
+    let visibleCount = 0;
+
+    cards.forEach((cardEl) => {
+      const card = cardEl as HTMLElement;
+      const cardCategory = card.dataset.category || '';
+      const isBestSeller = card.dataset.bestseller === 'true';
+      const name = card.dataset.name || '';
+      const description = card.dataset.description || '';
+
+      const matchCategory = category === 'All' || cardCategory === category;
+      const matchBestSeller = !onlyBestSeller || isBestSeller;
+      const matchSearch =
+        !searchQuery ||
+        name.includes(searchQuery) ||
+        description.includes(searchQuery) ||
+        cardCategory.toLowerCase().includes(searchQuery);
+
+      if (matchCategory && matchBestSeller && matchSearch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (counterBadge) {
+      counterBadge.textContent = `${visibleCount} Menu Tersedia`;
+    }
+
+    if (emptyState && cardsContainer) {
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+        cardsContainer.classList.add('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        cardsContainer.classList.remove('hidden');
+      }
+    }
+  }) as EventListener);
+
+  // Reset button action
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      window.dispatchEvent(
+        new CustomEvent('menu-filter-change', {
+          detail: { category: 'All', onlyBestSeller: false, searchQuery: '' },
+        })
+      );
+      window.dispatchEvent(new CustomEvent('filter-category', { detail: { category: 'All' } }));
+      const searchInput = document.getElementById('menu-search-input') as HTMLInputElement | null;
+      if (searchInput) searchInput.value = '';
+    });
+  }
+
+  // Handle click on card "Pesan" button to open modal
+  document.addEventListener('click', (e) => {
+    const target = (e.target as HTMLElement).closest('.open-modal-btn');
+    if (target) {
+      const itemDataStr = target.getAttribute('data-item');
+      if (itemDataStr) {
+        try {
+          const item: MenuItem = JSON.parse(itemDataStr);
+          window.dispatchEvent(new CustomEvent('open-item-modal', { detail: { item } }));
+        } catch (err) {
+          console.error('Failed to parse item data', err);
+        }
+      }
+    }
+  });
+
+  // Handle open by item ID (from hero banners or promotions)
+  window.addEventListener('open-item-by-id', ((e: CustomEvent) => {
+    const id = e.detail?.id;
+    if (id) {
+      const targetCard = document.querySelector(`[data-item-id="${id}"]`);
+      const btn = targetCard?.querySelector('.open-modal-btn');
+      if (btn) {
+        (btn as HTMLButtonElement).click();
+      }
+    }
+  }) as EventListener);
+</script>

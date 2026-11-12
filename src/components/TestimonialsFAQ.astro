@@ -1,0 +1,176 @@
+---
+// TestimonialsFAQ.astro
+const testimonials = [
+  {
+    name: 'Sarah Anindita',
+    role: 'Mahasiswi & Content Creator',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+    stars: 5,
+    comment: 'Kopi Kenangan Mantan + Roti Cokelat Klasik adalah penyelamat waktu deadline tugas! Rasa manis gula arennya otentik dan rotinya empuk banget sampe gigitan terakhir.',
+  },
+  {
+    name: 'Rizky Maulana',
+    role: 'Software Engineer',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+    stars: 5,
+    comment: 'Senang banget ada opsi kustomisasi suhu dan level gula. Saya selalu pesan less sugar 70%. Uji Matcha Latte-nya beneran premium, packaging rapat gak pernah tumpah.',
+  },
+  {
+    name: 'Dimas Trihatmojo',
+    role: 'Operations & Event Lead',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80',
+    stars: 5,
+    comment: 'Sudah 4 kali pesan paket bundling Kopi + Roti untuk konsumsi rapat lab dan kantor (50+ porsi). Barista super responsif di WhatsApp, pengantaran tepat waktu!',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Apakah seluruh produk Kenangan & Cerita Roti bersertifikat Halal?',
+    a: 'Ya, 100% bahan baku mulai dari biji kopi arabika, susu segar pasteurisasi, sirup gula aren murni, hingga adonan dan isian Cerita Roti telah terverifikasi Halal resmi oleh BPJPH dan LPPOM MUI.',
+  },
+  {
+    q: 'Bagaimana cara memilih opsi suhu, ukuran, dan tingkat kemanisan?',
+    a: 'Cukup klik tombol "Pesan" pada menu minuman. Jendela kustomisasi akan otomatis muncul untuk memilih Suhu (Ice/Hot), Ukuran Cup (Regular/Large), Level Gula (100%, 70%, 50%, 0%), dan Level Es Batu.',
+  },
+  {
+    q: 'Berapa lama daya tahan roti bantal Cerita Roti dan cara menghangatkannya?',
+    a: 'Cerita Roti dipanggang fresh setiap pagi tanpa bahan pengawet. Tahan 3 hari di suhu ruang, atau hingga 5 hari di dalam lemari es. Cukup panaskan di microwave atau toaster selama 10–15 detik untuk mendapatkan tekstur lumer hangat maksimal.',
+  },
+  {
+    q: 'Apakah bisa memesan dalam jumlah banyak untuk acara kantor / event?',
+    a: 'Bisa banget! Anda dapat langsung menghubungi WhatsApp kami untuk memesan paket katering/bundling event dengan harga dan diskon khusus pengiriman instan.',
+  },
+  {
+    q: 'Berapa minimal pembelian untuk mendapatkan promo Gratis Ongkir?',
+    a: 'Anda otomatis mendapatkan promo Gratis Ongkir dengan pembelanjaan minimal Rp 50.000 ke area pengantaran dalam radius 5 km dari outlet kami.',
+  },
+];
+---
+
+<section id="testimoni-faq" class="py-16 sm:py-24 bg-stone-50 border-b border-stone-200/80 scroll-mt-20">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    
+    <!-- Part 1: Testimonials / Social Proof -->
+    <div class="space-y-10">
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider">
+          <span>💬</span>
+          <span>Suara Pelanggan</span>
+        </div>
+        <h2 class="font-serif-brand text-2xl sm:text-4xl font-bold text-stone-900 tracking-tight">
+          Cerita Mereka Bersama Kopi & Roti Kami
+        </h2>
+        <p class="text-stone-600 text-xs sm:text-sm">
+          Lebih dari 50.000+ cangkir kopi dan roti dinikmati setiap bulannya dengan rating kepuasan 4.9/5 bintang.
+        </p>
+      </div>
+
+      <!-- Testimonials Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        {testimonials.map((t) => (
+          <div class="bg-white rounded-3xl p-6 sm:p-7 border border-stone-200 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between">
+            <div>
+              <!-- Stars -->
+              <div class="flex items-center gap-1 text-amber-400 mb-4 text-base">
+                {'★'.repeat(t.stars)}
+              </div>
+              <p class="text-stone-700 text-xs sm:text-sm leading-relaxed italic">
+                "{t.comment}"
+              </p>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-stone-100 flex items-center gap-3">
+              <img
+                src={t.avatar}
+                alt={t.name}
+                class="w-10 h-10 rounded-full object-cover ring-2 ring-amber-500/30"
+                loading="lazy"
+              />
+              <div>
+                <h4 class="font-bold text-stone-900 text-sm">{t.name}</h4>
+                <p class="text-stone-500 text-xs">{t.role}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Part 2: Interactive FAQ Accordion -->
+    <div class="max-w-3xl mx-auto pt-6 space-y-8">
+      <div class="text-center space-y-2">
+        <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Pertanyaan Populer</span>
+        <h3 class="font-serif-brand text-2xl sm:text-3xl font-bold text-stone-900">
+          Frequently Asked Questions (FAQ)
+        </h3>
+        <p class="text-stone-600 text-xs sm:text-sm">
+          Semua hal yang perlu Anda ketahui tentang menu, pemesanan, dan bahan baku kami.
+        </p>
+      </div>
+
+      <!-- Accordion Container -->
+      <div class="space-y-3.5" id="faq-accordion-group">
+        {faqs.map((faq, idx) => (
+          <div class="faq-item bg-white rounded-2xl border border-stone-200 overflow-hidden transition-all shadow-xs">
+            <button
+              type="button"
+              class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-stone-900 text-sm sm:text-base hover:text-amber-800 transition-colors cursor-pointer"
+              aria-expanded="false"
+              data-index={idx}
+            >
+              <span>{faq.q}</span>
+              <svg class="faq-icon w-5 h-5 text-amber-600 shrink-0 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="faq-content hidden px-5 pb-5 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+              {faq.a}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Interactive Accordion Logic
+  const toggles = document.querySelectorAll('.faq-toggle');
+
+  toggles.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const parent = btn.closest('.faq-item');
+      const content = parent?.querySelector('.faq-content');
+      const icon = btn.querySelector('.faq-icon');
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+      // Close all other accordions (clean accordion behavior)
+      toggles.forEach((otherBtn) => {
+        if (otherBtn !== btn) {
+          const otherParent = otherBtn.closest('.faq-item');
+          const otherContent = otherParent?.querySelector('.faq-content');
+          const otherIcon = otherBtn.querySelector('.faq-icon');
+          otherBtn.setAttribute('aria-expanded', 'false');
+          otherContent?.classList.add('hidden');
+          otherIcon?.classList.remove('rotate-180');
+          otherParent?.classList.remove('border-amber-400', 'ring-2', 'ring-amber-400/20');
+        }
+      });
+
+      // Toggle current
+      if (isExpanded) {
+        btn.setAttribute('aria-expanded', 'false');
+        content?.classList.add('hidden');
+        icon?.classList.remove('rotate-180');
+        parent?.classList.remove('border-amber-400', 'ring-2', 'ring-amber-400/20');
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        content?.classList.remove('hidden');
+        icon?.classList.add('rotate-180');
+        parent?.classList.add('border-amber-400', 'ring-2', 'ring-amber-400/20');
+      }
+    });
+  });
+</script>

@@ -1,0 +1,515 @@
+---
+// ItemModal.astro
+---
+
+<div
+  id="item-customization-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-stone-950/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-item-name"
+>
+  <!-- Modal Dialog Container -->
+  <div
+    id="item-modal-panel"
+    class="relative w-full max-w-xl max-h-[92vh] flex flex-col bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden transform scale-95 transition-transform duration-300"
+  >
+    <!-- Modal Header with Close Button -->
+    <button
+      id="close-item-modal-btn"
+      type="button"
+      aria-label="Tutup dialog"
+      class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-stone-900/60 hover:bg-stone-900 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-md"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Scrollable Modal Content -->
+    <div class="overflow-y-auto flex-1 divide-y divide-stone-100">
+      
+      <!-- Top Image & Summary Banner -->
+      <div class="relative w-full h-56 sm:h-64 bg-stone-100 shrink-0">
+        <img
+          id="modal-item-image"
+          src=""
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent"></div>
+        
+        <div class="absolute bottom-4 left-4 right-4 text-white">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span id="modal-category-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-600/90 text-white backdrop-blur-sm"></span>
+            <span id="modal-bestseller-badge" class="hidden px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-stone-950">★ Best Seller</span>
+          </div>
+          <h2 id="modal-item-name" class="font-serif-brand font-bold text-xl sm:text-2xl text-white leading-tight"></h2>
+        </div>
+      </div>
+
+      <!-- Description & Base Price -->
+      <div class="p-5 sm:p-6 bg-stone-50/50">
+        <p id="modal-item-description" class="text-stone-600 text-sm leading-relaxed"></p>
+        <div class="mt-3 flex items-center justify-between">
+          <span class="text-xs text-stone-400 font-medium uppercase tracking-wider">Harga Dasar</span>
+          <span id="modal-base-price" class="text-lg font-bold text-amber-900 font-serif-brand"></span>
+        </div>
+      </div>
+
+      <!-- Customization Options for Drinks (isDrink === true) -->
+      <div id="drink-options-container" class="p-5 sm:p-6 space-y-6">
+        
+        <!-- 1. Suhu (Temperature: Ice / Hot) -->
+        <fieldset class="space-y-2.5">
+          <legend class="text-sm font-bold text-stone-900 flex items-center gap-2">
+            <span>🌡️ Pilihan Suhu</span>
+            <span class="text-red-500 text-xs font-semibold">*Wajib</span>
+          </legend>
+          <div class="grid grid-cols-2 gap-3" id="temperature-group">
+            <label class="temp-radio-card flex items-center justify-between p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="temp-option" value="Ice" checked class="text-amber-600 focus:ring-amber-500" />
+                <span class="text-sm font-semibold text-stone-800">🧊 Ice (Dingin)</span>
+              </div>
+            </label>
+            <label class="temp-radio-card flex items-center justify-between p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="temp-option" value="Hot" class="text-amber-600 focus:ring-amber-500" />
+                <span class="text-sm font-semibold text-stone-800">☕ Hot (Hangat)</span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 2. Ukuran Cup (Size: Regular / Large) -->
+        <fieldset class="space-y-2.5">
+          <legend class="text-sm font-bold text-stone-900 flex items-center gap-2">
+            <span>🥤 Ukuran Cup (Size)</span>
+            <span class="text-red-500 text-xs font-semibold">*Wajib</span>
+          </legend>
+          <div class="grid grid-cols-2 gap-3" id="size-group">
+            <label class="size-radio-card flex items-center justify-between p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="size-option" value="Regular" data-price-mod="0" checked class="text-amber-600 focus:ring-amber-500" />
+                <div class="text-left">
+                  <div class="text-sm font-semibold text-stone-800">Regular (12 oz)</div>
+                  <div class="text-[11px] text-stone-500">+Rp 0</div>
+                </div>
+              </div>
+            </label>
+            <label class="size-radio-card flex items-center justify-between p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="size-option" value="Large" data-price-mod="4000" class="text-amber-600 focus:ring-amber-500" />
+                <div class="text-left">
+                  <div class="text-sm font-semibold text-stone-800">Large (16 oz)</div>
+                  <div class="text-[11px] text-amber-700 font-semibold">+Rp 4.000</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 3. Tingkat Kemanisan (Sugar Level) -->
+        <fieldset class="space-y-2.5">
+          <legend class="text-sm font-bold text-stone-900 flex items-center gap-2">
+            <span>🍯 Tingkat Gula Aren / Manis</span>
+            <span class="text-red-500 text-xs font-semibold">*Wajib</span>
+          </legend>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="sugar-group">
+            <label class="sugar-radio-card flex flex-col p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <input type="radio" name="sugar-option" value="Normal (100%)" checked class="sr-only" />
+              <span class="text-xs font-bold text-stone-800 title-text">Normal</span>
+              <span class="text-[10px] text-stone-500">100% Manis</span>
+            </label>
+            <label class="sugar-radio-card flex flex-col p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <input type="radio" name="sugar-option" value="Less Sugar (70%)" class="sr-only" />
+              <span class="text-xs font-bold text-stone-800 title-text">Less Sugar</span>
+              <span class="text-[10px] text-stone-500">70% Sedang</span>
+            </label>
+            <label class="sugar-radio-card flex flex-col p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <input type="radio" name="sugar-option" value="Slight Sugar (50%)" class="sr-only" />
+              <span class="text-xs font-bold text-stone-800 title-text">Slight Sugar</span>
+              <span class="text-[10px] text-stone-500">50% Sedikit</span>
+            </label>
+            <label class="sugar-radio-card flex flex-col p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <input type="radio" name="sugar-option" value="No Sugar (0%)" class="sr-only" />
+              <span class="text-xs font-bold text-stone-800 title-text">No Sugar</span>
+              <span class="text-[10px] text-stone-500">0% Tawar</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 4. Level Es (Ice Level, only if Ice selected) -->
+        <fieldset id="ice-level-fieldset" class="space-y-2.5">
+          <legend class="text-sm font-bold text-stone-900 flex items-center gap-2">
+            <span>🧊 Level Es Batu</span>
+          </legend>
+          <div class="grid grid-cols-3 gap-2" id="ice-level-group">
+            <label class="ice-radio-card p-2 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white block">
+              <input type="radio" name="ice-level-option" value="Normal Ice" checked class="sr-only" />
+              <span class="text-xs font-semibold text-stone-800">Normal Ice</span>
+            </label>
+            <label class="ice-radio-card p-2 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white block">
+              <input type="radio" name="ice-level-option" value="Less Ice" class="sr-only" />
+              <span class="text-xs font-semibold text-stone-800">Less Ice</span>
+            </label>
+            <label class="ice-radio-card p-2 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white block">
+              <input type="radio" name="ice-level-option" value="No Ice" class="sr-only" />
+              <span class="text-xs font-semibold text-stone-800">No Ice</span>
+            </label>
+          </div>
+        </fieldset>
+
+      </div>
+
+      <!-- Bakery Options (Cerita Roti, isDrink === false) -->
+      <div id="bakery-options-container" class="p-5 sm:p-6 space-y-4 hidden">
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-start gap-3">
+          <span class="text-2xl">🥐</span>
+          <div>
+            <h4 class="text-xs sm:text-sm font-bold text-amber-950">Tips Menikmati Cerita Roti</h4>
+            <p class="text-xs text-amber-800 mt-1 leading-relaxed">
+              Roti bantal kami siap santap kapan saja! Jika ingin isian lebih lumer dan roti hangat mengepul, minta tim kami untuk menghangatkannya.
+            </p>
+          </div>
+        </div>
+
+        <fieldset class="space-y-2">
+          <legend class="text-sm font-bold text-stone-900">Pilihan Penyajian</legend>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="bakery-serve-card flex items-center gap-2.5 p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <input type="radio" name="bakery-serve" value="Suhu Ruang" checked class="text-amber-600 focus:ring-amber-500" />
+              <span class="text-xs sm:text-sm font-semibold text-stone-800">Suhu Ruang (Original)</span>
+            </label>
+            <label class="bakery-serve-card flex items-center gap-2.5 p-3 rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white">
+              <input type="radio" name="bakery-serve" value="Dihangatkan (Toasted)" class="text-amber-600 focus:ring-amber-500" />
+              <span class="text-xs sm:text-sm font-semibold text-stone-800">🔥 Dihangatkan</span>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- Special Notes Section -->
+      <div class="p-5 sm:p-6">
+        <label for="modal-item-notes" class="block text-sm font-bold text-stone-900 mb-1.5">
+          Catatan Tambahan (Opsional)
+        </label>
+        <textarea
+          id="modal-item-notes"
+          rows="2"
+          placeholder="Contoh: Pisahkan es, jangan terlalu manis, atau permintaan khusus lainnya..."
+          class="w-full p-3 text-xs sm:text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-stone-800 placeholder-stone-400"
+        ></textarea>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer: Quantity Adjuster & Add Button -->
+    <div class="p-4 sm:p-5 bg-white border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Quantity Selector -->
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-stone-500 font-semibold hidden sm:inline">Jumlah:</span>
+        <div class="flex items-center rounded-xl border border-stone-300 bg-stone-50 p-1">
+          <button
+            id="qty-minus-btn"
+            type="button"
+            class="w-8 h-8 rounded-lg bg-white shadow-xs hover:bg-stone-200 flex items-center justify-center font-bold text-stone-700 active:scale-95 transition-all cursor-pointer"
+          >
+            -
+          </button>
+          <span id="modal-qty-display" class="w-10 text-center font-bold text-stone-900 text-sm">1</span>
+          <button
+            id="qty-plus-btn"
+            type="button"
+            class="w-8 h-8 rounded-lg bg-white shadow-xs hover:bg-stone-200 flex items-center justify-center font-bold text-stone-700 active:scale-95 transition-all cursor-pointer"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- Add to Cart CTA Button -->
+      <button
+        id="add-to-cart-submit-btn"
+        type="button"
+        class="w-full sm:w-auto flex-1 max-w-sm px-6 py-3.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-amber-900/30 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+      >
+        <span>Tambah ke Pesanan</span>
+        <span id="modal-subtotal-price" class="bg-amber-700/60 px-2 py-0.5 rounded-md text-amber-100 font-extrabold text-xs sm:text-sm">
+          Rp 0
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import type { MenuItem, CartItem, CartItemOption, DrinkSize, DrinkTemperature, SugarLevel, IceLevel } from '../types/menu';
+
+  const modal = document.getElementById('item-customization-modal');
+  const modalPanel = document.getElementById('item-modal-panel');
+  const closeBtn = document.getElementById('close-item-modal-btn');
+  const imgEl = document.getElementById('modal-item-image') as HTMLImageElement | null;
+  const nameEl = document.getElementById('modal-item-name');
+  const descEl = document.getElementById('modal-item-description');
+  const basePriceEl = document.getElementById('modal-base-price');
+  const catBadgeEl = document.getElementById('modal-category-badge');
+  const bestSellerBadgeEl = document.getElementById('modal-bestseller-badge');
+
+  const drinkContainer = document.getElementById('drink-options-container');
+  const bakeryContainer = document.getElementById('bakery-options-container');
+  const iceLevelFieldset = document.getElementById('ice-level-fieldset');
+
+  const notesInput = document.getElementById('modal-item-notes') as HTMLTextAreaElement | null;
+  const qtyDisplay = document.getElementById('modal-qty-display');
+  const subtotalEl = document.getElementById('modal-subtotal-price');
+  const addBtn = document.getElementById('add-to-cart-submit-btn');
+
+  const minusBtn = document.getElementById('qty-minus-btn');
+  const plusBtn = document.getElementById('qty-plus-btn');
+
+  let currentItem: MenuItem | null = null;
+  let currentQty = 1;
+
+  function formatRp(val: number): string {
+    return `Rp ${val.toLocaleString('id-ID')}`;
+  }
+
+  function recalculateSubtotal() {
+    if (!currentItem) return;
+
+    let unitPrice = currentItem.basePrice;
+
+    if (currentItem.isDrink) {
+      const selectedSize = document.querySelector('input[name="size-option"]:checked') as HTMLInputElement | null;
+      if (selectedSize) {
+        const mod = Number(selectedSize.dataset.priceMod || 0);
+        unitPrice += mod;
+      }
+    }
+
+    const subtotal = unitPrice * currentQty;
+
+    if (subtotalEl) {
+      subtotalEl.textContent = formatRp(subtotal);
+    }
+  }
+
+  function updateVisualRadios() {
+    // Style sugar options
+    document.querySelectorAll('.sugar-radio-card').forEach((card) => {
+      const input = card.querySelector('input') as HTMLInputElement;
+      if (input && input.checked) {
+        card.className =
+          'sugar-radio-card flex flex-col p-2.5 text-center rounded-xl border-2 border-amber-600 bg-amber-50/60 cursor-pointer transition-all';
+      } else {
+        card.className =
+          'sugar-radio-card flex flex-col p-2.5 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white';
+      }
+    });
+
+    // Style ice level options
+    document.querySelectorAll('.ice-radio-card').forEach((card) => {
+      const input = card.querySelector('input') as HTMLInputElement;
+      if (input && input.checked) {
+        card.className =
+          'ice-radio-card p-2 text-center rounded-xl border-2 border-amber-600 bg-amber-50/60 cursor-pointer transition-all block';
+      } else {
+        card.className =
+          'ice-radio-card p-2 text-center rounded-xl border border-stone-200 cursor-pointer hover:border-amber-400 transition-all bg-white block';
+      }
+    });
+
+    // Check temperature: if Hot, hide ice level fieldset
+    const tempChecked = document.querySelector('input[name="temp-option"]:checked') as HTMLInputElement | null;
+    if (iceLevelFieldset) {
+      if (tempChecked && tempChecked.value === 'Hot') {
+        iceLevelFieldset.classList.add('hidden');
+      } else {
+        iceLevelFieldset.classList.remove('hidden');
+      }
+    }
+  }
+
+  function openModal(item: MenuItem) {
+    currentItem = item;
+    currentQty = 1;
+
+    if (imgEl) {
+      imgEl.src = item.image;
+      imgEl.alt = item.name;
+    }
+    if (nameEl) nameEl.textContent = item.name;
+    if (descEl) descEl.textContent = item.description;
+    if (basePriceEl) basePriceEl.textContent = formatRp(item.basePrice);
+    if (catBadgeEl) catBadgeEl.textContent = item.category;
+
+    if (bestSellerBadgeEl) {
+      if (item.isBestSeller) {
+        bestSellerBadgeEl.classList.remove('hidden');
+      } else {
+        bestSellerBadgeEl.classList.add('hidden');
+      }
+    }
+
+    if (notesInput) notesInput.value = '';
+    if (qtyDisplay) qtyDisplay.textContent = '1';
+
+    // Show/hide drink vs bakery options
+    if (item.isDrink) {
+      drinkContainer?.classList.remove('hidden');
+      bakeryContainer?.classList.add('hidden');
+
+      // Reset drink radios to defaults
+      const defaultTemp = document.querySelector('input[name="temp-option"][value="Ice"]') as HTMLInputElement;
+      if (defaultTemp) defaultTemp.checked = true;
+
+      const defaultSize = document.querySelector('input[name="size-option"][value="Regular"]') as HTMLInputElement;
+      if (defaultSize) defaultSize.checked = true;
+
+      const defaultSugar = document.querySelector('input[name="sugar-option"][value="Normal (100%)"]') as HTMLInputElement;
+      if (defaultSugar) defaultSugar.checked = true;
+
+      const defaultIce = document.querySelector('input[name="ice-level-option"][value="Normal Ice"]') as HTMLInputElement;
+      if (defaultIce) defaultIce.checked = true;
+    } else {
+      drinkContainer?.classList.add('hidden');
+      bakeryContainer?.classList.remove('hidden');
+    }
+
+    updateVisualRadios();
+    recalculateSubtotal();
+
+    // Show modal with animation
+    if (modal && modalPanel) {
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modalPanel.classList.remove('scale-95');
+      modalPanel.classList.add('scale-100');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal() {
+    if (modal && modalPanel) {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modalPanel.classList.remove('scale-100');
+      modalPanel.classList.add('scale-95');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Event Listeners for radio changes
+  document.querySelectorAll('input[name="temp-option"], input[name="size-option"], input[name="sugar-option"], input[name="ice-level-option"]').forEach((el) => {
+    el.addEventListener('change', () => {
+      updateVisualRadios();
+      recalculateSubtotal();
+    });
+  });
+
+  // Quantity controls
+  if (minusBtn) {
+    minusBtn.addEventListener('click', () => {
+      if (currentQty > 1) {
+        currentQty--;
+        if (qtyDisplay) qtyDisplay.textContent = currentQty.toString();
+        recalculateSubtotal();
+      }
+    });
+  }
+
+  if (plusBtn) {
+    plusBtn.addEventListener('click', () => {
+      currentQty++;
+      if (qtyDisplay) qtyDisplay.textContent = currentQty.toString();
+      recalculateSubtotal();
+    });
+  }
+
+  // Close handlers
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('pointer-events-none')) {
+      closeModal();
+    }
+  });
+
+  // Listen to open-item-modal
+  window.addEventListener('open-item-modal', ((e: CustomEvent) => {
+    if (e.detail?.item) {
+      openModal(e.detail.item);
+    }
+  }) as EventListener);
+
+  // Submit Add to Cart
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      if (!currentItem) return;
+
+      let unitPrice = currentItem.basePrice;
+      let options: CartItemOption | undefined = undefined;
+
+      if (currentItem.isDrink) {
+        const temp = (document.querySelector('input[name="temp-option"]:checked') as HTMLInputElement)?.value as DrinkTemperature;
+        const sizeInput = document.querySelector('input[name="size-option"]:checked') as HTMLInputElement;
+        const size = sizeInput?.value as DrinkSize;
+        const mod = Number(sizeInput?.dataset.priceMod || 0);
+        unitPrice += mod;
+
+        const sugar = (document.querySelector('input[name="sugar-option"]:checked') as HTMLInputElement)?.value as SugarLevel;
+        const ice = temp === 'Ice' ? ((document.querySelector('input[name="ice-level-option"]:checked') as HTMLInputElement)?.value as IceLevel) : undefined;
+
+        options = {
+          temperature: temp,
+          size: size,
+          sugarLevel: sugar,
+          iceLevel: ice,
+          notes: notesInput?.value.trim() || undefined,
+        };
+      } else {
+        const bakeryServe = (document.querySelector('input[name="bakery-serve"]:checked') as HTMLInputElement)?.value;
+        const extraNotes = notesInput?.value.trim();
+        const combinedNotes = [bakeryServe, extraNotes].filter(Boolean).join(' • ');
+
+        options = {
+          notes: combinedNotes || undefined,
+        };
+      }
+
+      // Generate a unique key for grouping identical items with identical options
+      const optionSignature = JSON.stringify(options || {});
+      const cartItemId = `${currentItem.id}__${btoa(encodeURIComponent(optionSignature))}`;
+
+      const cartItem: CartItem = {
+        cartItemId,
+        item: currentItem,
+        quantity: currentQty,
+        selectedOptions: options,
+        unitPrice,
+      };
+
+      // Dispatch to global cart manager
+      window.dispatchEvent(new CustomEvent('add-to-cart', { detail: { cartItem } }));
+
+      // Dispatch Toast
+      window.dispatchEvent(
+        new CustomEvent('show-toast', {
+          detail: {
+            title: 'Berhasil Ditambahkan!',
+            message: `${currentQty}x ${currentItem.name} telah masuk ke keranjang pesanan.`,
+            type: 'success',
+          },
+        })
+      );
+
+      closeModal();
+    });
+  }
+</script>

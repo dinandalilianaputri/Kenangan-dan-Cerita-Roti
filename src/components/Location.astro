@@ -1,0 +1,130 @@
+---
+// Location.astro
+const waNumber = '6281234567890';
+const waText = encodeURIComponent('Halo Barista Kenangan & Cerita Roti, saya ingin memesan kopi dan roti untuk hari ini.');
+const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+---
+
+<section id="lokasi-kontak" class="py-16 sm:py-24 bg-white border-b border-stone-200/80 scroll-mt-20">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Title -->
+    <div class="text-center max-w-2xl mx-auto space-y-3 mb-12">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold uppercase tracking-wider">
+        <span>📍</span>
+        <span>Kunjungi Outlet & Hubungi Kami</span>
+      </div>
+      <h2 class="font-serif-brand text-2xl sm:text-4xl font-bold text-stone-900 tracking-tight">
+        Lokasi Outlet & Pemesanan Cepat
+      </h2>
+      <p class="text-stone-600 text-xs sm:text-sm">
+        Nikmati suasana cafe yang nyaman untuk bekerja atau santai bersama sahabat, atau pesan langsung via WhatsApp.
+      </p>
+    </div>
+
+    <!-- 2 Column Layout: Info Card & Map Embed -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      
+      <!-- Left: Store Information & WhatsApp CTA (5 cols) -->
+      <div class="lg:col-span-5 flex flex-col justify-between bg-stone-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+        <div class="space-y-6">
+          
+          <div>
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500 text-stone-950 mb-2">
+              Outlet Utama MCL
+            </span>
+            <h3 class="font-serif-brand text-xl sm:text-2xl font-bold text-white">
+              Kenangan & Cerita Roti Lab
+            </h3>
+            <p class="text-stone-400 text-xs sm:text-sm mt-1 leading-relaxed">
+              Kawasan Edukasi & Riset Teknologi MCL, Kampus Sukolilo, Surabaya, Jawa Timur 60111.
+            </p>
+          </div>
+
+          <!-- Hours & Details -->
+          <div class="space-y-3.5 pt-4 border-t border-stone-800 text-xs sm:text-sm">
+            <div class="flex items-start gap-3">
+              <span class="text-lg">🕒</span>
+              <div>
+                <span class="block font-bold text-stone-200">Jam Operasional:</span>
+                <span class="text-stone-400">Senin - Jumat: 07:30 - 22:00 WIB</span>
+                <span class="block text-stone-400">Sabtu - Minggu: 07:00 - 23:00 WIB</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-lg">📶</span>
+              <div>
+                <span class="block font-bold text-stone-200">Fasilitas Cafe:</span>
+                <span class="text-stone-400">High-Speed Wi-Fi, Stopkontak di Setiap Meja, AC Dingin, Smoking & Non-Smoking Area</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-lg">🛵</span>
+              <div>
+                <span class="block font-bold text-stone-200">Layanan:</span>
+                <span class="text-stone-400">Dine-in, Takeaway, Drive-thru & Delivery via WhatsApp</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Direct WhatsApp Call To Action -->
+        <div class="mt-8 pt-6 border-t border-stone-800 space-y-3">
+          <p class="text-xs text-stone-400">
+            Ingin order cepat, reservasi meja, atau katering kantor?
+          </p>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-sm sm:text-base shadow-lg shadow-emerald-950/40 transition-all flex items-center justify-center gap-2.5 group cursor-pointer"
+          >
+            <!-- WhatsApp Official SVG Icon -->
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.06-2.029-.496-1.554-.649-2.581-2.22-2.659-2.325-.077-.105-.631-.84-.631-1.603 0-.764.398-1.141.542-1.297.144-.156.312-.195.416-.195.105 0 .208.001.299.006.096.005.226-.037.352.269.13.316.442 1.077.481 1.156.039.078.065.17.013.273-.052.104-.078.169-.156.26-.078.091-.164.204-.234.273-.078.078-.16.163-.069.319.091.156.404.667.868 1.08 1.019.907 1.25.992 1.428 1.07.178.078.283.065.387-.052.104-.117.442-.519.56-.699.117-.182.234-.152.39-.091.156.061.988.466 1.157.551.17.085.283.127.325.198.042.071.042.416-.102.821z" />
+            </svg>
+            <span>Pesan Langsung via WhatsApp</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right: Responsive Map & Visual Embed (7 cols) -->
+      <div class="lg:col-span-7 rounded-3xl overflow-hidden border border-stone-200 shadow-md flex flex-col bg-stone-100 relative min-h-[360px] sm:min-h-[440px]">
+        <!-- Google Map iframe embed (Surabaya ITS Campus area) -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15830.413783416568!2d112.78426021160356!3d-7.285885239106096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fa1119561061%3A0x6b801452278912e7!2sInstitut%20Teknologi%20Sepuluh%20Nopember!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+          width="100%"
+          height="100%"
+          style="border:0; min-height: 380px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Lokasi Outlet Kenangan & Cerita Roti"
+          class="flex-1 w-full h-full"
+        ></iframe>
+
+        <!-- Map bottom info badge -->
+        <div class="p-4 bg-white border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs text-stone-600">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="font-bold text-stone-800">Tersedia Parkir Luas & Layanan Dine-in</span>
+          </div>
+          <a
+            href="https://maps.google.com/?q=Institut+Teknologi+Sepuluh+Nopember+Surabaya"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-amber-700 hover:text-amber-800 font-bold inline-flex items-center gap-1"
+          >
+            Buka Petunjuk Arah di Google Maps &rarr;
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

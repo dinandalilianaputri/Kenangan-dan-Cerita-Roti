@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import HeroBanner from '../components/HeroBanner.astro';
+import About from '../components/About.astro';
+import PromoHighlights from '../components/PromoHighlights.astro';
+import CategoryFilter from '../components/CategoryFilter.astro';
+import MenuGrid from '../components/MenuGrid.astro';
+import TestimonialsFAQ from '../components/TestimonialsFAQ.astro';
+import Location from '../components/Location.astro';
+import Footer from '../components/Footer.astro';
+import ItemModal from '../components/ItemModal.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import CheckoutModal from '../components/CheckoutModal.astro';
+import Toast from '../components/Toast.astro';
+import FloatingWA from '../components/FloatingWA.astro';
+import { menuItems } from '../data/menu';
+---
+
+<Layout
+  title="Kenangan & Cerita Roti - Menu Kopi & Roti Nusantara"
+  description="Pesan online kopi kenangan arabika, minuman non-kopi segar, dan roti bantal empuk Cerita Roti langsung dari outlet terdekat atau via WhatsApp."
+>
+  <!-- 1. Navigation Header -->
+  <Navbar />
+
+  <!-- Main Content Sections -->
+  <main class="flex-1">
+    <!-- 2. Hero Section -->
+    <HeroBanner />
+
+    <!-- 3. Problem & Solution / Features (Bento Grid) -->
+    <About />
+
+    <!-- 4. Feature Highlights -->
+    <PromoHighlights />
+
+    <!-- 5. Interactive Demo / Showcase / Catalog Section -->
+    <section id="menu-section" class="py-16 sm:py-20 scroll-mt-20 bg-stone-50/50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider">
+            <span>☕</span>
+            <span>Katalog Lengkap</span>
+          </div>
+          <h2 class="font-serif-brand text-2xl sm:text-4xl font-bold text-stone-900 tracking-tight">
+            Pilihan Menu Favoritmu
+          </h2>
+          <p class="text-stone-600 text-xs sm:text-sm leading-relaxed">
+            Pilih racikan kopi favoritmu dengan opsi suhu & level gula, atau nikmati kelembutan aneka varian Cerita Roti hangat.
+          </p>
+        </div>
+
+        <!-- Interactive Category and Search Filters -->
+        <CategoryFilter />
+
+        <!-- Menu Cards Grid -->
+        <MenuGrid items={menuItems} />
+
+      </div>
+    </section>
+
+    <!-- 6. Social Proof (Testimoni) & FAQ Accordion Section -->
+    <TestimonialsFAQ />
+
+    <!-- 7. Location & Contact Section (Google Maps & WhatsApp CTA) -->
+    <Location />
+  </main>
+
+  <!-- 8. Footer Section -->
+  <Footer />
+
+  <!-- Interactive Overlays & Modals (Modular) -->
+  <ItemModal />
+  <CartDrawer />
+  <CheckoutModal />
+  <Toast />
+  <FloatingWA />
+</Layout>

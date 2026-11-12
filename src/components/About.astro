@@ -1,0 +1,110 @@
+---
+// About.astro
+---
+
+<section id="about" class="py-16 sm:py-20 bg-stone-100/60 border-y border-stone-200/80 scroll-mt-20">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Title -->
+    <div class="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-200/60 text-amber-900 text-xs font-bold uppercase tracking-wider">
+        <span>✨</span>
+        <span>Kenapa Memilih Kami</span>
+      </div>
+      <h2 class="font-serif-brand text-2xl sm:text-4xl font-bold text-stone-900 tracking-tight">
+        Kelezatan Otentik yang Diproses dengan Hati
+      </h2>
+      <p class="text-stone-600 text-xs sm:text-sm leading-relaxed">
+        Kami memadukan tradisi biji kopi terbaik Nusantara dengan inovasi kelembutan roti modern demi menghadirkan senyuman di setiap tegukan dan gigitan.
+      </p>
+    </div>
+
+    <!-- Bento Grid Container -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6">
+      
+      <!-- Bento Card 1 (Large - 7 cols) -->
+      <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            ☕
+          </div>
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">100% Kopi Arabika Nusantara</span>
+          <h3 class="font-serif-brand text-xl sm:text-2xl font-bold text-stone-900 mt-1">
+            Biji Kopi Pilihan dari Dataran Tinggi Indonesia
+          </h3>
+          <p class="text-stone-600 text-xs sm:text-sm mt-2.5 leading-relaxed">
+            Setiap cangkir diseduh dari biji kopi arabika pilihan pegunungan Aceh Gayo dan Kintamani Bali. Dipanggang dengan profil *medium-dark roast* untuk menghasilkan aroma cokelat karamel yang tebal dan tingkat keasaman seimbang yang nyaman di lambung.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-stone-100 flex items-center gap-4 text-xs font-semibold text-stone-700">
+          <span class="flex items-center gap-1.5"><span class="text-emerald-500">✓</span> Freshly Ground Espresso</span>
+          <span class="flex items-center gap-1.5"><span class="text-emerald-500">✓</span> Susu Segar Pasteurisasi</span>
+        </div>
+      </div>
+
+      <!-- Bento Card 2 (5 cols) -->
+      <div class="lg:col-span-5 bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-3xl p-6 sm:p-8 shadow-md hover:shadow-xl transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            🍯
+          </div>
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Gula Aren Murni Organik</span>
+          <h3 class="font-serif-brand text-xl sm:text-2xl font-bold text-white mt-1">
+            Manis Legit Alami Tanpa Pemanis Buatan
+          </h3>
+          <p class="text-stone-300 text-xs sm:text-sm mt-2.5 leading-relaxed">
+            Sirup gula aren kami dimasak langsung dari nira pohon aren alami petani lokal. Menghasilkan rasa manis legit gurih yang kaya mineral dan aman dinikmati setiap hari.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-amber-300 font-medium">
+          <span>Indeks Glikemik Lebih Sehat</span>
+          <span class="text-xl">🌿</span>
+        </div>
+      </div>
+
+      <!-- Bento Card 3 (5 cols) -->
+      <div class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            🥐
+          </div>
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Freshly Baked Every Morning</span>
+          <h3 class="font-serif-brand text-xl sm:text-2xl font-bold text-stone-900 mt-1">
+            Cerita Roti Selembut Awan
+          </h3>
+          <p class="text-stone-600 text-xs sm:text-sm mt-2.5 leading-relaxed">
+            Dibuat menggunakan metode fermentasi khas Jepang dengan mentega pilihan. Roti bantal kami selalu lembut berhari-hari tanpa tambahan bahan pengawet sintetis.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-stone-100 flex items-center gap-4 text-xs font-semibold text-stone-700">
+          <span class="flex items-center gap-1.5"><span class="text-emerald-500">✓</span> 100% Halal MUI</span>
+          <span class="flex items-center gap-1.5"><span class="text-emerald-500">✓</span> Isian Berlimpah Lumer</span>
+        </div>
+      </div>
+
+      <!-- Bento Card 4 (7 cols) -->
+      <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            🛡️
+          </div>
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Standar Kebersihan & Pengemasan</span>
+          <h3 class="font-serif-brand text-xl sm:text-2xl font-bold text-stone-900 mt-1">
+            Seal Rapat Anti Bocor & Suhu Terjaga
+          </h3>
+          <p class="text-stone-600 text-xs sm:text-sm mt-2.5 leading-relaxed">
+            Semua minuman dikemas dengan teknologi cup sealing otomatis kedap tumpah, menjaga sensasi es tetap dingin atau suhu hangat tetap terjaga optimal saat diantar kurir ke rumah atau kantor Anda.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-stone-100 flex flex-wrap items-center justify-between gap-3 text-xs font-semibold text-stone-700">
+          <span class="flex items-center gap-1.5"><span class="text-emerald-500">✓</span> Kemasan Food-Grade Ramah Lingkungan</span>
+          <a href="#menu-section" class="text-amber-700 hover:text-amber-800 font-bold inline-flex items-center gap-1">
+            Lihat Menu Kami &rarr;
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

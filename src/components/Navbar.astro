@@ -1,0 +1,136 @@
+---
+// Navbar.astro
+const waNumber = '6281234567890';
+const waText = encodeURIComponent('Halo Barista, saya ingin pesan kopi & cerita roti.');
+const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+---
+
+<header class="sticky top-0 z-40 bg-stone-900/95 text-stone-100 backdrop-blur-md border-b border-stone-800 transition-all shadow-md">
+  <!-- Top announcement bar -->
+  <div class="bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-stone-100 text-xs py-1.5 px-4 text-center font-medium tracking-wide">
+    <div class="container mx-auto flex items-center justify-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Promo Eksklusif: Pesan sekarang & nikmati diskon spesial bundling Kopi + Cerita Roti!</span>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 sm:h-20 gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-lg p-1">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-lg shadow-amber-900/30 group-hover:scale-105 transition-transform">
+          <!-- Coffee Cup & Bread Icon -->
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"></path>
+            <line x1="6" y1="2" x2="6" y2="4"></line>
+            <line x1="10" y1="2" x2="10" y2="4"></line>
+            <line x1="14" y1="2" x2="14" y2="4"></line>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif-brand font-bold text-lg sm:text-xl tracking-tight text-white group-hover:text-amber-300 transition-colors">
+            Kenangan & Cerita Roti
+          </span>
+          <span class="text-[11px] text-stone-400 font-medium tracking-wider uppercase">
+            Artisan Coffee & Warm Bakes
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links (Leading to Real Sections) -->
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-stone-300">
+        <a href="#hero" class="hover:text-amber-400 transition-colors">
+          Beranda
+        </a>
+        <a href="#about" class="hover:text-amber-400 transition-colors">
+          Keunggulan
+        </a>
+        <a href="#menu-section" class="hover:text-amber-400 transition-colors">
+          Pilihan Menu
+        </a>
+        <a href="#testimoni-faq" class="hover:text-amber-400 transition-colors">
+          Testimoni & FAQ
+        </a>
+        <a href="#lokasi-kontak" class="hover:text-amber-400 transition-colors">
+          Lokasi & Kontak
+        </a>
+      </nav>
+
+      <!-- Right CTAs: WhatsApp & Cart Trigger -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- Direct WhatsApp Button (Compact on Navbar) -->
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-emerald-700/80 hover:bg-emerald-600 text-white font-medium text-xs border border-emerald-500/50 transition-all cursor-pointer"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.06-2.029-.496-1.554-.649-2.581-2.22-2.659-2.325-.077-.105-.631-.84-.631-1.603 0-.764.398-1.141.542-1.297.144-.156.312-.195.416-.195.105 0 .208.001.299.006.096.005.226-.037.352.269.13.316.442 1.077.481 1.156.039.078.065.17.013.273-.052.104-.078.169-.156.26-.078.091-.164.204-.234.273-.078.078-.16.163-.069.319.091.156.404.667.868 1.08 1.019.907 1.25.992 1.428 1.07.178.078.283.065.387-.052.104-.117.442-.519.56-.699.117-.182.234-.152.39-.091.156.061.988.466 1.157.551.17.085.283.127.325.198.042.071.042.416-.102.821z" />
+          </svg>
+          <span>WA Barista</span>
+        </a>
+
+        <!-- Cart Button -->
+        <button
+          id="cart-trigger-btn"
+          type="button"
+          aria-label="Buka Keranjang Pesanan"
+          class="relative flex items-center gap-2.5 px-4 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-semibold text-sm shadow-md shadow-amber-950/40 hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+        >
+          <div class="relative">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span
+              id="cart-badge-count"
+              class="absolute -top-2 -right-2 bg-red-600 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-stone-900 transition-transform scale-0"
+            >
+              0
+            </span>
+          </div>
+          <span class="hidden sm:inline">Keranjang</span>
+          <span id="cart-nav-total" class="hidden md:inline font-bold text-amber-200 border-l border-amber-500/50 pl-2">
+            Rp 0
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<script>
+  // Open cart drawer
+  const cartBtn = document.getElementById('cart-trigger-btn');
+  if (cartBtn) {
+    cartBtn.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('toggle-cart', { detail: { open: true } }));
+    });
+  }
+
+  // Update Cart Badge on cart changes
+  window.addEventListener('cart-updated', ((e: CustomEvent) => {
+    const { items, total } = e.detail || { items: [], total: 0 };
+    const badge = document.getElementById('cart-badge-count');
+    const totalEl = document.getElementById('cart-nav-total');
+    const totalCount = items.reduce((sum: number, it: any) => sum + (it.quantity || 1), 0);
+
+    if (badge) {
+      badge.textContent = totalCount.toString();
+      if (totalCount > 0) {
+        badge.classList.remove('scale-0');
+        badge.classList.add('scale-100');
+      } else {
+        badge.classList.remove('scale-100');
+        badge.classList.add('scale-0');
+      }
+    }
+
+    if (totalEl) {
+      totalEl.textContent = `Rp ${Number(total).toLocaleString('id-ID')}`;
+    }
+  }) as EventListener);
+</script>

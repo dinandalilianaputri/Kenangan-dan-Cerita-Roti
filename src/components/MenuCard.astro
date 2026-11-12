@@ -1,0 +1,105 @@
+---
+// MenuCard.astro
+import type { MenuItem } from '../types/menu';
+
+interface Props {
+  item: MenuItem;
+}
+
+const { item } = Astro.props;
+
+const formattedPrice = `Rp ${item.basePrice.toLocaleString('id-ID')}`;
+
+const categoryColors: Record<string, string> = {
+  Coffee: 'bg-amber-900/10 text-amber-900 border-amber-900/20',
+  'Non-Coffee': 'bg-emerald-900/10 text-emerald-900 border-emerald-900/20',
+  'Cerita Roti': 'bg-orange-900/10 text-orange-900 border-orange-900/20',
+};
+
+const badgeColor = categoryColors[item.category] || 'bg-stone-100 text-stone-700 border-stone-200';
+---
+
+<div
+  class="menu-card group flex flex-col bg-white rounded-2xl border border-stone-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-1"
+  data-item-id={item.id}
+  data-category={item.category}
+  data-bestseller={item.isBestSeller ? 'true' : 'false'}
+  data-name={item.name.toLowerCase()}
+  data-description={item.description.toLowerCase()}
+>
+  <!-- Card Image Section -->
+  <div class="relative w-full aspect-[4/3] bg-stone-100 overflow-hidden">
+    <img
+      src={item.image}
+      alt={item.name}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      loading="lazy"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+    <!-- Badges Container -->
+    <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
+      {item.isBestSeller && (
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500 text-stone-950 shadow-md">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          Best Seller
+        </span>
+      )}
+      <span class={`inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold border ${badgeColor} backdrop-blur-md bg-white/90`}>
+        {item.category}
+      </span>
+    </div>
+
+    <!-- Drink / Bakery indicator pill -->
+    <div class="absolute bottom-3 right-3 z-10">
+      {item.isDrink ? (
+        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-stone-900/80 text-stone-200 backdrop-blur-sm flex items-center gap-1">
+          <svg class="w-3 h-3 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+          Kustomisasi Suhu & Gula
+        </span>
+      ) : (
+        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-stone-900/80 text-stone-200 backdrop-blur-sm flex items-center gap-1">
+          <span>🍞</span>
+          Fresh Baked
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="p-5 flex-1 flex flex-col justify-between">
+    <div>
+      <h3 class="font-bold text-stone-900 text-lg leading-snug group-hover:text-amber-800 transition-colors">
+        {item.name}
+      </h3>
+      <p class="text-stone-600 text-xs sm:text-sm mt-1.5 line-clamp-2 leading-relaxed">
+        {item.description}
+      </p>
+    </div>
+
+    <!-- Pricing & Action Bar -->
+    <div class="mt-5 pt-3 border-t border-stone-100 flex items-center justify-between gap-3">
+      <div>
+        <span class="block text-[11px] text-stone-400 font-medium">Harga Mulai</span>
+        <span class="text-base sm:text-lg font-extrabold text-amber-900 font-serif-brand">
+          {formattedPrice}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="open-modal-btn px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow transition-all flex items-center gap-1.5 cursor-pointer"
+        data-item={JSON.stringify(item)}
+      >
+        <span>Pesan</span>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

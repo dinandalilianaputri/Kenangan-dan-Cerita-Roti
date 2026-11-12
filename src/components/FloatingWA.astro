@@ -1,0 +1,30 @@
+---
+// FloatingWA.astro
+const waNumber = '6281234567890';
+const waText = encodeURIComponent('Halo Barista Kenangan & Cerita Roti, saya ingin bertanya tentang menu / promo hari ini.');
+const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+---
+
+<aside class="fixed bottom-6 left-6 z-40 flex items-center group">
+  <a
+    href={waUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Hubungi Barista via WhatsApp"
+    class="flex items-center gap-2.5 px-4 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-950/30 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95"
+  >
+    <div class="relative">
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.06-2.029-.496-1.554-.649-2.581-2.22-2.659-2.325-.077-.105-.631-.84-.631-1.603 0-.764.398-1.141.542-1.297.144-.156.312-.195.416-.195.105 0 .208.001.299.006.096.005.226-.037.352.269.13.316.442 1.077.481 1.156.039.078.065.17.013.273-.052.104-.078.169-.156.26-.078.091-.164.204-.234.273-.078.078-.16.163-.069.319.091.156.404.667.868 1.08 1.019.907 1.25.992 1.428 1.07.178.078.283.065.387-.052.104-.117.442-.519.56-.699.117-.182.234-.152.39-.091.156.061.988.466 1.157.551.17.085.283.127.325.198.042.071.042.416-.102.821z" />
+      </svg>
+      <!-- Online green dot -->
+      <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-white ring-2 ring-emerald-600 flex items-center justify-center">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      </span>
+    </div>
+    <div class="hidden sm:flex flex-col text-left leading-tight pr-1">
+      <span class="text-[10px] text-emerald-100 font-medium uppercase tracking-wider">Online 07.30 - 22.00</span>
+      <span class="text-xs font-bold text-white">Chat Barista Kami</span>
+    </div>
+  </a>
+</aside>

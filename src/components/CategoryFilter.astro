@@ -1,0 +1,197 @@
+---
+// CategoryFilter.astro
+import type { MenuCategory } from '../types/menu';
+
+const categories: { label: string; value: MenuCategory | 'All'; icon: string }[] = [
+  { label: 'Semua Menu', value: 'All', icon: '✨' },
+  { label: 'Coffee', value: 'Coffee', icon: '☕' },
+  { label: 'Non-Coffee', value: 'Non-Coffee', icon: '🍵' },
+  { label: 'Cerita Roti', value: 'Cerita Roti', icon: '🥐' },
+];
+---
+
+<div class="space-y-4">
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    
+    <!-- Category Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" role="tablist">
+      {categories.map((cat) => (
+        <button
+          type="button"
+          role="tab"
+          data-category-tab={cat.value}
+          class={`filter-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer ${
+            cat.value === 'All'
+              ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
+              : 'bg-white text-stone-700 hover:bg-stone-100 hover:text-stone-900 border border-stone-200'
+          }`}
+        >
+          <span>{cat.icon}</span>
+          <span>{cat.label}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Right Controls: Best Seller Toggle & Search Bar -->
+    <div class="flex flex-wrap items-center gap-3">
+      
+      <!-- Best Seller Toggle -->
+      <button
+        id="toggle-bestseller-btn"
+        type="button"
+        class="flex items-center gap-2 px-3.5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border transition-all duration-200 bg-white text-stone-700 border-stone-200 hover:border-amber-400 cursor-pointer"
+      >
+        <span class="text-amber-500">★</span>
+        <span>Hanya Best Seller</span>
+      </button>
+
+      <!-- Live Search Input -->
+      <div class="relative flex-1 sm:w-64">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input
+          id="menu-search-input"
+          type="text"
+          placeholder="Cari kopi, matcha, roti..."
+          class="w-full pl-9 pr-8 py-2 text-sm bg-white border border-stone-200 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-stone-800 placeholder-stone-400 transition-all"
+        />
+        <button
+          id="clear-search-btn"
+          type="button"
+          class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-stone-400 hover:text-stone-600 cursor-pointer"
+          title="Hapus pencarian"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Active filter status and count bar -->
+  <div class="flex items-center justify-between text-xs sm:text-sm text-stone-500 px-1">
+    <div id="filter-status-text">
+      Menampilkan semua pilihan menu terbaik
+    </div>
+    <div id="menu-counter-badge" class="font-semibold text-stone-700">
+      18 Menu Tersedia
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentCategory = 'All';
+  let onlyBestSeller = false;
+  let searchQuery = '';
+
+  const tabButtons = document.querySelectorAll('[data-category-tab]');
+  const bestSellerBtn = document.getElementById('toggle-bestseller-btn');
+  const searchInput = document.getElementById('menu-search-input') as HTMLInputElement | null;
+  const clearSearchBtn = document.getElementById('clear-search-btn');
+  const statusText = document.getElementById('filter-status-text');
+
+  function emitFilterChange() {
+    window.dispatchEvent(
+      new CustomEvent('menu-filter-change', {
+        detail: {
+          category: currentCategory,
+          onlyBestSeller,
+          searchQuery: searchQuery.trim().toLowerCase(),
+        },
+      })
+    );
+
+    // Update UI tabs
+    tabButtons.forEach((btn) => {
+      const cat = (btn as HTMLElement).dataset.categoryTab;
+      if (cat === currentCategory) {
+        btn.className =
+          'filter-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer bg-amber-600 text-white shadow-md shadow-amber-600/30';
+      } else {
+        btn.className =
+          'filter-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer bg-white text-stone-700 hover:bg-stone-100 hover:text-stone-900 border border-stone-200';
+      }
+    });
+
+    // Update Best Seller button styling
+    if (bestSellerBtn) {
+      if (onlyBestSeller) {
+        bestSellerBtn.className =
+          'flex items-center gap-2 px-3.5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border transition-all duration-200 bg-amber-50 text-amber-900 border-amber-400 ring-2 ring-amber-400/30 cursor-pointer';
+      } else {
+        bestSellerBtn.className =
+          'flex items-center gap-2 px-3.5 py-2.5 rounded-full text-xs sm:text-sm font-semibold border transition-all duration-200 bg-white text-stone-700 border-stone-200 hover:border-amber-400 cursor-pointer';
+      }
+    }
+
+    // Update search clear button
+    if (clearSearchBtn) {
+      if (searchQuery.trim().length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
+    }
+
+    // Status description
+    if (statusText) {
+      let desc = currentCategory === 'All' ? 'Semua Kategori' : currentCategory;
+      if (onlyBestSeller) desc += ' (Hanya Menu Best Seller)';
+      if (searchQuery.trim()) desc += ` • Hasil pencarian "${searchQuery.trim()}"`;
+      statusText.textContent = `Menampilkan: ${desc}`;
+    }
+  }
+
+  // Handle Tab Click
+  tabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentCategory = (btn as HTMLElement).dataset.categoryTab || 'All';
+      emitFilterChange();
+    });
+  });
+
+  // Handle Best Seller Click
+  if (bestSellerBtn) {
+    bestSellerBtn.addEventListener('click', () => {
+      onlyBestSeller = !onlyBestSeller;
+      emitFilterChange();
+    });
+  }
+
+  // Handle Search Input
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = (e.target as HTMLInputElement).value;
+      emitFilterChange();
+    });
+  }
+
+  // Clear Search
+  if (clearSearchBtn && searchInput) {
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      emitFilterChange();
+      searchInput.focus();
+    });
+  }
+
+  // External triggers (from navbar or hero)
+  window.addEventListener('filter-category', ((e: CustomEvent) => {
+    if (e.detail?.category) {
+      currentCategory = e.detail.category;
+      emitFilterChange();
+    }
+  }) as EventListener);
+
+  window.addEventListener('filter-bestseller', ((e: CustomEvent) => {
+    onlyBestSeller = Boolean(e.detail?.onlyBestSeller);
+    emitFilterChange();
+  }) as EventListener);
+</script>
